@@ -1245,7 +1245,7 @@ reference manual.
 	//non-removable;
 	vmmc-supply = <&reg_3p3v>;
 	keep-power-in-suspend;
-	status = "okay";
+	status = "disabled";
 };
 
 &usdhc3 { /* Module microSD slot */
