@@ -11,6 +11,7 @@
  * http://www.opensource.org/licenses/gpl-license.html
  * http://www.gnu.org/copyleft/gpl.html
  */
+#include <dt-bindings/input/input.h>
 
 / {
 	aliases {
@@ -272,20 +273,6 @@
 		VDDIO-supply = <&reg_3p3v>;
 	};
 
-	fusion7: fusion7@10 {
-		compatible = "touchrev,fusion7";
-		reg = <0x10>; /* The reg property describes the address of the device's resources within the address space defined by its parent bus.  */
-		pinctrl-0 = <&pinctrl_gpio>;
-		pinctrl-names = "default";
-		interrupt-parent = <&gpio4>;
-		interrupts = <5 0>;
-		reset-gpios=<&gpio7 8 0>; /*pin264  SD3_RST GPIO(7, 8)   gpio200   Touchscreen Reset  Output*/
-		touch_xmax=<1499>;
-		touch_ymax=<899>;
-		flip_x=<0>;
-		flip_y=<0>;
-	};
-
 };
 
 &i2c3 {
@@ -293,6 +280,15 @@
         pinctrl-names = "default";
         pinctrl-0 = <&pinctrl_i2c3_3>;
         status = "okay";
+	ft5x06_ts@38 {
+		compatible = "ft5x06-ts";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio>;
+		reg = <0x38>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-gpios = <&gpio4 5 1>;
+	};
 };
 
 /*
