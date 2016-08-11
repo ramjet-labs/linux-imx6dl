@@ -288,6 +288,7 @@
 		interrupt-parent = <&gpio4>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		wakeup-gpios = <&gpio4 5 1>;
+		reset-gpios = <&gpio3 8 1>;
 	};
 };
 
