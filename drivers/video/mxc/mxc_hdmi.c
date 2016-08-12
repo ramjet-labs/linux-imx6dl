@@ -99,6 +99,25 @@ static const struct fb_videomode vga_mode = {
 	FB_VMODE_NONINTERLACED | FB_VMODE_ASPECT_4_3, FB_MODE_IS_VESA,
 };
 
+static const struct fb_videomode manga_mode = {
+	/* 480x800 @ 60 Hz,  */
+	.name = NULL,
+	.refresh = 60,
+	.xres = 480,
+	.yres = 800,
+	.pixclock = 39682,
+	.left_margin = 21,
+	.right_margin = 5,
+	.upper_margin = 6,
+	.lower_margin = 3,
+	.hsync_len = 6,
+	.vsync_len = 3,
+	.sync = 0, //FB_SYNC_HOR_HIGH_ACT | FB_SYNC_VERT_HIGH_ACT,
+	.vmode = FB_VMODE_NONINTERLACED,
+	.flag = 0,
+};
+
+
 enum hdmi_datamap {
 	RGB444_8B = 0x01,
 	RGB444_10B = 0x03,
@@ -1796,6 +1815,7 @@ static void mxc_hdmi_edid_rebuild_modelist(struct mxc_hdmi *hdmi)
 
 	fb_destroy_modelist(&hdmi->fbi->modelist);
 	fb_add_videomode(&vga_mode, &hdmi->fbi->modelist);
+	fb_add_videomode(&manga_mode, &hdmi->fbi->modelist);
 
 	for (i = 0; i < hdmi->fbi->monspecs.modedb_len; i++) {
 		/*
@@ -1853,6 +1873,7 @@ static void  mxc_hdmi_default_modelist(struct mxc_hdmi *hdmi)
 			fb_add_videomode(mode, &hdmi->fbi->modelist);
 	}
 
+	fb_add_videomode(&manga_mode, &hdmi->fbi->modelist);
 	fb_new_modelist(hdmi->fbi);
 
 	console_unlock();
@@ -2572,7 +2593,7 @@ static int mxc_hdmi_disp_init(struct mxc_dispdrv_handle *disp,
 	console_lock();
 
 	fb_destroy_modelist(&hdmi->fbi->modelist);
-
+	fb_add_videomode(&manga_mode, &hdmi->fbi->modelist);
 	/*Add all no interlaced CEA mode to default modelist */
 	for (i = 0; i < ARRAY_SIZE(mxc_cea_mode); i++) {
 		mode = &mxc_cea_mode[i];
